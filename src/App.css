@@ -41,6 +41,59 @@
   gap: 0.5rem;
 }
 
+.controls-td div button i {
+  font-size: small;
+}
+
 .category-table {
   max-height: 2rem;
+}
+
+.custom-table {
+  width:fit-content;
+  max-height: 12rem;
+  border-collapse: collapse;
+  overflow-y: auto;
+  display: block;
+}
+
+.custom-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+}
+
+.custom-table th, .custom-table td {
+  padding: 0.5rem 1rem;
+  border: 0.5px solid #dee2e6;
+  text-align: left;
+}
+
+.custom-table tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed; 
+}
+
+.custom-table tbody tr:nth-child(even) {
+  background-color: #ececec;
+}
+
+.custom-table tbody tr td:nth-of-type(2) {
+  text-align: center;
+}
+
+.bootstrap-table {
+  font-size: clamp(0.8rem, 1.2vw, 1.2rem);
+}
+
+.loading-container {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  color: black;
 }

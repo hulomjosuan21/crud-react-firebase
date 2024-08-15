@@ -1,6 +1,6 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { handleAddTool, handleAddCategory} from '.';
+import { handleAddTool, handleAddCategory, handleDeleteCategory} from '.';
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot  } from "firebase/firestore";
 import { db } from '../firebase/firebaseConfig';
@@ -65,6 +65,8 @@ const FormComponent = () => {
     <section className="form__container">
 
       <div className="form__wrapper1">
+
+        <h3>Add Tool</h3>
         <Form onSubmit={handleSubmit1}>
           
           <Form.Group className="mb-3">
@@ -95,6 +97,7 @@ const FormComponent = () => {
       </div>
 
       <div className="form__wrapper2">
+        <h3>Add Category</h3>
         <Form onSubmit={handleSubmit2}>
           <Form.Group className="mb-3">
             <Form.Label>New Category</Form.Label>
@@ -102,12 +105,28 @@ const FormComponent = () => {
           </Form.Group>
           <Button variant="primary" type='submit' className='btn2'>Add</Button>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Delete/Edit Category</Form.Label>
-            <Form.Control type="text" value={_category} />
-          </Form.Group>
-          <Button variant="secondary" className='btn2'><i className="fa-solid fa-pen-to-square"></i></Button>
-          <Button variant="danger" className='btn2'><i className="fa-solid fa-trash"></i></Button>
+          <table className='custom-table'>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Controls</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                categoryFromFirebase && categoryFromFirebase.map((item,index) => (
+                  <tr key={index}>
+                    <td>{item.category_name}</td>
+                    <td>
+                      <Button variant="danger" onClick={() => handleDeleteCategory(item.id)}>
+                        <i className="fa-solid fa-trash"></i>
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
         </Form>
       </div>
 

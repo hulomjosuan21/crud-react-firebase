@@ -33,4 +33,17 @@ async function handleDeleteTool(id) {
   }
 }
 
-export {handleAddTool, handleAddCategory, handleDeleteTool}
+async function handleDeleteCategory(id) {
+  try {
+    await deleteDoc(doc(db, "category", id));
+    window.alert(`Document ID: ${id} successfully deleted`);
+  } catch (error) {
+    console.error("Error deleting document: ", error);
+  }
+}
+
+async function handleEdit(index) {
+  window.alert(index)
+}
+
+export {handleAddTool, handleAddCategory, handleDeleteTool, handleDeleteCategory, handleEdit}

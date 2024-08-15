@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import Table from 'react-bootstrap/Table';
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot  } from "firebase/firestore";
@@ -6,6 +5,7 @@ import { db } from '../firebase/firebaseConfig';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { handleDeleteTool } from '.';
+import Form from 'react-bootstrap/Form';
 
 const TableComponent = () => {
 
@@ -23,13 +23,26 @@ const TableComponent = () => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+
+  const [showTool, setShowTool] = useState({});
+  const handleShow = (d) => {
+    setShowTool(d)
+    setShow(true);
+  };
+
+  const [modalEditShow, setModalEditShow] = useState(false);
+
+  const [toEditTool, setToEditTool] = useState({})
+  const handleEdit = (item) => {
+    setToEditTool(item);
+    setModalEditShow(true);
+  }
 
   return (
     <section className="table__container">
       
       <div className="table_wrapper">
-        <Table striped bordered hover>
+        <Table striped bordered hover className='bootstrap-table'>
           <thead>
             <tr>
               <th>Name</th>
@@ -43,15 +56,18 @@ const TableComponent = () => {
             {
               data && data.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.name}</td>
+                  <td onDoubleClick={() => handleEdit(item)}>{item.name}</td>
                   <td>{item.link}</td>
-                  <td>{item.description}</td>
+                  <td>{item.description.length > 9 ? item.description.substring(0, 9) + '...' : item.description}</td>
                   <td>{item.category}</td>
                   <td className='controls-td'>
                     <div>
-                      <Button variant="secondary" className='controls-btn'>
-                        <i className="fa-solid fa-pen-to-square"></i>
+                      <Button variant="success" className='controls-btn' onClick={() => handleShow(item)}>
+                        <i className="fa-solid fa-eye"></i>
                       </Button>
+                      {/* <Button variant="secondary" className='controls-btn' onClick={() => setModalEditShow(true)} >
+                        <i className="fa-solid fa-pen-to-square"></i>
+                      </Button> */}
                       <Button variant="danger" className='controls-btn' onClick={() => handleDeleteTool (item.id)}>
                         <i className="fa-solid fa-trash"></i>
                       </Button>
@@ -66,14 +82,34 @@ const TableComponent = () => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>{showTool.name}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>A tool that helps you create smooth, layered CSS box shadows. It allows you to adjust parameters like transparency, distance, blur, and spread to generate the perfect shadow effect.</Modal.Body>
+        <Modal.Body>
+          <p>{showTool.link}</p>
+          <code>{showTool.description}</code>
+          <p>{showTool.category}</p>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={modalEditShow} onHide={() => setModalEditShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>{toEditTool.id}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Name</Form.Label>
+            <Form.Control type="text"/>
+          </Form.Group>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary"onClick={() => setModalEditShow(false)}>
             Save Changes
           </Button>
         </Modal.Footer>
