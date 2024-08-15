@@ -1,0 +1,46 @@
+.form__container {
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 2rem 10vw;
+}
+
+.form__wrapper1 {
+}
+
+.form__wrapper2 {
+}
+
+.btn1 {
+  margin-top: 1rem;
+}
+.btn2 {
+  margin-bottom: 2rem;
+  margin-right: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .form__container {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, auto);
+    margin: 2rem 10vw;
+  }
+}
+
+.table_wrapper {
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls-td div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.category-table {
+  max-height: 2rem;
+}
